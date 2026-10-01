@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e6e8e7">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Inloggen | Arex Garage</title>
+  <link rel="icon" href="arex-logo.png" type="image/png">
+  <style>
+    :root{--ink:#202326;--red:#c8102b;--blue:#082967;--line:#c4c9c8}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100svh;background:#e6e8e7;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+    .shell{min-height:100svh;display:flex;flex-direction:column;width:min(100% - 64px,1120px);margin:auto}
+    .brand{display:inline-flex;align-items:center;gap:14px;align-self:flex-start;padding:28px 0;font-size:20px;font-weight:800;line-height:1;color:var(--blue);text-decoration:none}
+    .brand img{display:block;width:76px;height:42px;object-fit:contain}
+    .brand b{color:var(--red)}
+    main{flex:1;display:grid;align-content:center;justify-items:start;padding:45px 0 80px}
+    .label{display:flex;align-items:center;gap:11px;margin:0 0 20px;color:var(--red);font-size:12px;font-weight:800}
+    .label:before{content:"";width:24px;height:2px;background:var(--red)}
+    h1{margin:0 0 15px;font-size:clamp(44px,6vw,76px);line-height:1.02;letter-spacing:0}
+    .intro{max-width:440px;margin:0 0 32px;color:#596162;font-size:16px;line-height:1.6}
+    form{width:min(100%,430px)}
+    label{display:block;margin:0 0 9px;font-size:13px;font-weight:700}
+    input{display:block;width:100%;height:52px;padding:12px 14px;border:1px solid #9da5a4;border-radius:2px;background:#fff;color:var(--ink);font:inherit}
+    input:focus{outline:3px solid rgba(200,16,43,.22);border-color:var(--red)}
+    button{display:flex;justify-content:space-between;align-items:center;width:100%;height:52px;margin-top:13px;padding:0 18px;border:0;border-radius:2px;background:var(--red);color:#fff;font:700 14px Arial,Helvetica,sans-serif;cursor:pointer}
+    button:hover{background:#a60d21}
+    button span{font-size:20px}
+    .error{width:min(100%,430px);padding:12px 14px;margin:0 0 18px;border-left:3px solid var(--red);background:#fff;color:#8b1422;font-size:13px}
+    footer{display:flex;justify-content:space-between;gap:20px;padding:18px 0 25px;border-top:1px solid var(--line);color:#697172;font-size:12px}
+    @media(max-width:600px){.shell{width:min(100% - 36px,1120px)}.brand{font-size:16px;padding:18px 0}.brand img{width:58px;height:36px}main{padding:35px 0 60px}footer{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="brand"><img src="arex-logo.png" alt="AX-logo"><span>AREX <b>GARAGE</b></span></div>
+    <main>
+      <p class="label">PRIVÉVOORBEELD</p>
+      <h1>Welkom terug.</h1>
+      <p class="intro">Deze website is tijdelijk afgeschermd. Log in om de showroom te bekijken.</p>
+      <p id="login-error" class="error" role="alert" hidden>De code is niet juist. Probeer het opnieuw.</p>
+      <form id="login-form" method="post" action="#">
+        <label for="password">Wachtwoord</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required autofocus>
+        <button type="submit">Inloggen <span aria-hidden="true">↗</span></button>
+      </form>
+    </main>
+    <footer><span>AREX GARAGE / DELFT</span><span>Alleen voor de eigenaar</span></footer>
+  </div>
+  <script>
+    const accessCode = 'Arezcan071';
+    const accessKey = 'arex-garage-preview';
+    const requestedPage = new URLSearchParams(location.search).get('next');
+    const destination = ['home.html', 'showroom.html', 'contact.html'].includes(requestedPage) ? requestedPage : 'home.html';
+
+    if (sessionStorage.getItem(accessKey) === 'yes') location.replace(destination);
+
+    document.getElementById('login-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const input = document.getElementById('password');
+      if (input.value === accessCode) {
+        sessionStorage.setItem(accessKey, 'yes');
+        location.replace(destination);
+      } else {
+        document.getElementById('login-error').hidden = false;
+        input.value = '';
+        input.focus();
+      }
+    });
+  </script>
+</body>
+</html>
