@@ -1,14 +1,6 @@
 const menuButton = document.querySelector('.menu-toggle');
 const menu = document.querySelector('.primary-nav');
 
-document.querySelectorAll('.logout-form').forEach(form => {
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    sessionStorage.removeItem('arex-garage-preview');
-    location.assign('index.html');
-  });
-});
-
 if (menuButton && menu) {
   menuButton.addEventListener('click', () => {
     const open = menu.classList.toggle('open');
